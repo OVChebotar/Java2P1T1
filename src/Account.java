@@ -2,6 +2,9 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
 
+interface Loadable {
+    void load();
+}
 class NothingToUndo extends Exception{}
 interface Command{
     public void perform();
@@ -13,6 +16,23 @@ public class Account {
     private HashMap<Currency, Integer> curramount;
     private TypeAccount typeAccount;
     private Deque<Command> commands = new ArrayDeque<>();
+    private class Snapshot implements Loadable {
+        private String name;
+        private HashMap<Currency, Integer> curramount;
+        private TypeAccount typeAccount;
+        private Deque<Command> commands = new ArrayDeque<>();
+        public Snapshot() {
+            this.name = Account.this.name;
+            this.typeAccount = Account.this.typeAccount;
+            this.curramount = new HashMap<>(Account.this.curramount);
+        }
+        @Override
+        public void load() {
+            Account.this.name = this.name;
+            Account.this.typeAccount = this.typeAccount;
+            Account.this.curramount = new HashMap<>(this.curramount);
+        }
+    }
 
     private Account() {}
 
@@ -69,5 +89,5 @@ public class Account {
         commands.pop().perform();
         return this;
     }
+    public Loadable save() {return new Snapshot();}
 }
-

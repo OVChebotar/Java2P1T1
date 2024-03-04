@@ -16,6 +16,15 @@ public class Main {
         System.out.println(a1.getName());
         a1.printCurrAmount();
         System.out.println(a1.getTypeAccount());
-
+        System.out.println("-------------------");
+        Loadable qu1 = a1.save();
+        a1.setAmount(Currency.RUB, 0);
+        a1.setAmount(Currency.CNY, 0);
+        a1.setAmount(Currency.USD, 0);
+        a1.printCurrAmount();
+        System.out.println("-------------------");
+        qu1.load();
+        a1.printCurrAmount();
     }
 }
+
