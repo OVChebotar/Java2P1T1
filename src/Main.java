@@ -16,5 +16,6 @@ public class Main {
         System.out.println(a1.getName());
         a1.printCurrAmount();
         System.out.println(a1.getTypeAccount());
+
     }
 }
